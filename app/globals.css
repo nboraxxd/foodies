@@ -6,6 +6,7 @@
 
 html {
   font-family: 'Quicksand', sans-serif;
+  font-size: 62.5%;
 }
 
 body {
@@ -54,4 +55,10 @@ svg {
   font-size: 1.5rem;
   font-weight: 500;
   color: #ddd8d8;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 100%;
+  }
 }
