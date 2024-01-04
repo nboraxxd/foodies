@@ -1,17 +1,18 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import classes from './mainHeader.module.css'
 import logoImg from '@/assets/logo.png'
 
 export default function MainHeader() {
   return (
-    <header>
-      <Link href="/" style={{ position: 'relative' }}>
-        <Image src={logoImg.src} fill sizes="30px" alt="A plate with food on it" />
-        Foodies
+    <header className={classes.header}>
+      <Link href="/" className={classes.logo}>
+        <Image  priority src={logoImg} alt="A plate with food on it" />
+        <span>Foodies</span>
       </Link>
 
-      <nav>
+      <nav className={classes.nav}>
         <ul>
           <li>
             <Link href="/meals">Browse Meals</Link>
