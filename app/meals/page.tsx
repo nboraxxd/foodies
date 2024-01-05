@@ -1,10 +1,13 @@
 import Link from 'next/link'
-
-import { MealsGrid } from '@/components/meals'
-import classes from './page.module.css'
 import Balancer from 'react-wrap-balancer'
 
-export default function MealsPage() {
+import { getMeals } from '@/lib/meals'
+import { MealsGrid } from '@/components/meals'
+import classes from './page.module.css'
+
+export default async function MealsPage() {
+  const meals = await getMeals()
+
   return (
     <>
       <header className={classes.header}>
@@ -14,14 +17,14 @@ export default function MealsPage() {
           </Balancer>
         </h1>
         <p>
-        Choose your favorite recipe and cook it yourself. It is easy and fun
+          <Balancer>Choose your favorite recipe and cook it yourself. It is easy and fun</Balancer>
         </p>
         <p className={classes.cta}>
           <Link href="/meals/share">Share Your Favorite Recipe</Link>
         </p>
       </header>
       <main className={classes.main}>
-        <MealsGrid meals={[]} />
+        <MealsGrid meals={meals} />
       </main>
     </>
   )
