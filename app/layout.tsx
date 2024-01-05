@@ -6,7 +6,7 @@ import { MainHeader } from '@/components/mainHeader'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Foodies',
+  title: 'NextLevel Food',
   description: 'Delicious meals, shared by a food-loving community.',
 }
 

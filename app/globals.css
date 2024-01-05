@@ -44,6 +44,7 @@ body {
 
 @media (min-width: 768px) {
   html {
+    font-family: 'Quicksand', sans-serif;
     font-size: 100%;
   }
 }

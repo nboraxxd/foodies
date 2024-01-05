@@ -64,14 +64,16 @@
   display: none;
 }
 
+@media (min-width: 1024px) {
+  .logo > span {
+    display: inline-block;
+  }
+}
+
 @media (min-width: 768px) {
   .header {
     padding: 2rem 5%;
     font-size: 50%;
-  }
-
-  .logo > span {
-    display: inline-block;
   }
 
   .nav a {
