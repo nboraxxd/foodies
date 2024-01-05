@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import classes from './mealItem.module.css'
 import { Meal } from '@/types/meal.type'
+import classes from './mealItem.module.css'
 
 export default function MealItem({ creator, image, slug, summary, title }: Omit<Meal, 'id'>) {
   return (

@@ -1,5 +1,7 @@
 .header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem 1rem;
   gap: 3rem;
   margin: auto;
@@ -22,7 +24,6 @@
 .headerText {
   padding: 0.5rem 1rem 0 1rem;
   color: #ddd6cb;
-  max-width: 40rem;
   animation: fade-slide-in-from-right 1s ease-out forwards;
 }
 
@@ -31,6 +32,7 @@
   font-size: 3.5rem;
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
   text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
 }
 
@@ -38,6 +40,7 @@
   font-size: 1.5rem;
   color: #cfa69b;
   font-style: italic;
+  text-align: right;
 }
 
 .creator a {
@@ -58,6 +61,10 @@
 
 .summary {
   font-size: 1.5rem;
+}
+
+.recipe {
+  padding: 0 2rem;
 }
 
 .instructions {
@@ -123,5 +130,24 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: start;
+  }
+
+  .headerText {
+    max-width: 40rem;
+  }
+
+  .headerText h1 {
+    text-align: left;
+  }
+  
+  .creator {
+    text-align: left;
   }
 }
