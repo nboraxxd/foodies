@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import classes from './mainHeader.module.css'
-import logoImg from '@/assets/logo.png'
 import { NavLink } from '@/components/mainHeader'
+import logoImg from '@/assets/logo.png'
+import classes from './mainHeader.module.css'
 
 export default function MainHeader() {
   return (
