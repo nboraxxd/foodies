@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem;
-  gap: 3rem;
+  gap: 1rem;
   margin: auto;
   max-width: 80rem;
 }
@@ -140,7 +140,7 @@
   }
 
   .headerText {
-    max-width: 40rem;
+    max-width: 30rem;
   }
 
   .headerText h1 {
@@ -149,5 +149,11 @@
   
   .creator {
     text-align: left;
+  }
+}
+
+@media (min-width: 1024px) {
+  .headerText {
+    max-width: 40rem;
   }
 }
