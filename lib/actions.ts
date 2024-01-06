@@ -1,5 +1,6 @@
 'use server'
 
+import slugify from 'slugify'
 import { Meal } from '@/types/meal.type'
 
 export async function shareMeal(formData: FormData) {
@@ -10,7 +11,7 @@ export async function shareMeal(formData: FormData) {
     image: formData.get('image') as string,
     creator: formData.get('name') as string,
     creator_email: formData.get('email') as string,
-    slug: (formData.get('title') as string).replace(/\s+/g, '-').toLowerCase(),
+    slug: slugify(formData.get('title') as string, { lower: true }),
   }
 
   console.log('🔥 ~ shareMeal ~ meal:', meal)

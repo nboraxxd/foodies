@@ -1,5 +1,6 @@
 import sql from 'better-sqlite3'
 import { Meal } from '@/types/meal.type'
+import xss from 'xss'
 
 const db = sql('meals.db')
 
@@ -11,4 +12,8 @@ export async function getMeals() {
 export async function getMeal(slug: string) {
   await new Promise((resolve) => setTimeout(resolve, 800))
   return db.prepare('SELECT * FROM meals WHERE slug = ?').get(slug) as Meal
+}
+
+export async function saveMeal(meal: Omit<Meal, 'id'>) {
+  meal.instructions = xss(meal.instructions)
 }
