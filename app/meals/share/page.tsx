@@ -1,8 +1,22 @@
+'use client'
+
+import { useFormState } from 'react-dom'
+
 import { shareMeal } from '@/lib/actions'
 import { ImagePicker, MealsFormSubmit } from '@/components/meals'
 import classes from './page.module.css'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 export default function ShareMealPage() {
+  const [state, formAction] = useFormState(shareMeal, { message: '' })
+
+  useEffect(() => {
+    if (state.message) {
+      toast.error(state.message)
+    }
+  }, [state.message])
+
   return (
     <>
       <header className={classes.header}>
@@ -12,7 +26,7 @@ export default function ShareMealPage() {
         <p>Or any other meal you feel needs sharing!</p>
       </header>
       <main className={classes.main}>
-        <form className={classes.form} action={shareMeal}>
+        <form className={classes.form} action={formAction}>
           <div className={classes.row}>
             <p>
               <label htmlFor="name">Your name</label>
