@@ -1,10 +1,18 @@
-import fs from 'node:fs'
 import sql from 'better-sqlite3'
 import xss from 'xss'
 import slugify from 'slugify'
 import { v4 as uuidv4 } from 'uuid'
+import { S3 } from '@aws-sdk/client-s3'
 
 import { Meal } from '@/types/meal.type'
+
+const s3 = new S3({
+  region: process.env.AWS_REGION as string,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  },
+})
 
 const db = sql('meals.db')
 
@@ -22,18 +30,18 @@ export async function saveMeal(meal: Omit<Meal, 'id' | 'image' | 'slug'> & { ima
   const { title, summary, instructions, image, creator, creator_email } = meal
 
   meal.instructions = xss(meal.instructions)
-  const slug = slugify(`${meal.title}-${uuidv4()}`, { lower: true })
+  const slug = `${slugify(meal.title, { lower: true, strict: true })}-${uuidv4()}`
 
   const extension = image.name.split('.').pop()
   const fileName = `${slug}.${extension}`
 
-  const stream = fs.createWriteStream(`public/images/${fileName}`)
   const bufferedImage = await image.arrayBuffer()
 
-  stream.write(Buffer.from(bufferedImage), (err) => {
-    if (err) {
-      throw new Error(`Saving image failed: ${err.message}`)
-    }
+  await s3.putObject({
+    Bucket: process.env.AWS_BUCKET_NAME as string,
+    Key: fileName,
+    Body: Buffer.from(bufferedImage),
+    ContentType: meal.image.type,
   })
 
   db.prepare(
@@ -49,5 +57,5 @@ export async function saveMeal(meal: Omit<Meal, 'id' | 'image' | 'slug'> & { ima
       @slug
     )
   `
-  ).run({ title, summary, instructions, creator, creator_email, slug, image: `/images/${fileName}` })
+  ).run({ title, summary, instructions, creator, creator_email, slug, image: fileName })
 }

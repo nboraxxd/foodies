@@ -24,7 +24,12 @@ export default async function MealPage({ params: { mealSlug } }: Props) {
     <>
       <header className={classes.header}>
         <div className={classes.image}>
-          <Image fill src={meal.image} alt={meal.title} sizes="auto" />
+          <Image
+            fill
+            src={`https://next-level-food-singapore-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/${meal.image}`}
+            alt={meal.title}
+            sizes="auto"
+          />
         </div>
         <div className={classes.headerText}>
           <h1>

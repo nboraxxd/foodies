@@ -1,5 +1,5 @@
 .picker label {
-  display: inline-block;
+  display: inline-block !important;
   cursor: pointer;
 }
 

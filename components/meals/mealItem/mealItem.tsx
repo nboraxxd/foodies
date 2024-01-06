@@ -9,7 +9,7 @@ export default function MealItem({ creator, image, slug, summary, title }: Omit<
     <article className={classes.meal}>
       <header>
         <div className={classes.image}>
-          <Image src={image} alt={title} fill sizes='auto' />
+          <Image src={`https://next-level-food-singapore-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/${image}`} alt={title} fill sizes='auto' />
         </div>
         <div className={classes.headerText}>
           <h2>{title}</h2>
