@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import sql from 'better-sqlite3'
 import xss from 'xss'
+import slugify from 'slugify'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Meal } from '@/types/meal.type'
@@ -17,13 +18,14 @@ export async function getMeal(slug: string) {
   return db.prepare('SELECT * FROM meals WHERE slug = ?').get(slug) as Meal
 }
 
-export async function saveMeal(meal: Omit<Meal, 'id' | 'image'> & { image: File }) {
-  const { title, summary, instructions, image, creator, creator_email, slug } = meal
+export async function saveMeal(meal: Omit<Meal, 'id' | 'image' | 'slug'> & { image: File }) {
+  const { title, summary, instructions, image, creator, creator_email } = meal
 
   meal.instructions = xss(meal.instructions)
+  const slug = slugify(`${meal.title}-${uuidv4()}`, { lower: true })
 
   const extension = image.name.split('.').pop()
-  const fileName = `${meal.slug}-${uuidv4()}.${extension}`
+  const fileName = `${slug}.${extension}`
 
   const stream = fs.createWriteStream(`public/images/${fileName}`)
   const bufferedImage = await image.arrayBuffer()

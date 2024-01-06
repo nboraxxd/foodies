@@ -1,23 +1,22 @@
 'use server'
 
-import slugify from 'slugify'
 import { Meal } from '@/types/meal.type'
 import { saveMeal } from '@/lib/meals'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 function isInvalidText(text: string): boolean {
   return !text || text.trim().length === 0
 }
 
 export async function shareMeal(_prevState: { message: string }, formData: FormData) {
-  const meal: Omit<Meal, 'id' | 'image'> & { image: File } = {
+  const meal: Omit<Meal, 'id' | 'image' | 'slug'> & { image: File } = {
     title: formData.get('title') as string,
     summary: formData.get('summary') as string,
     instructions: formData.get('instructions') as string,
     image: formData.get('image') as File,
     creator: formData.get('name') as string,
     creator_email: formData.get('email') as string,
-    slug: slugify(formData.get('title') as string, { lower: true }),
   }
 
   if (
@@ -34,5 +33,6 @@ export async function shareMeal(_prevState: { message: string }, formData: FormD
   }
 
   await saveMeal(meal)
+  revalidatePath('/meals')
   redirect('/meals')
 }
