@@ -1,6 +1,6 @@
 .controls {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -10,6 +10,7 @@
 }
 
 .picker .button {
+  max-width: 10rem;
   border: 0;
   padding: 0.5rem 1.5rem;
   background: #a4abb9;
