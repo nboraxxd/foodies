@@ -21,7 +21,8 @@ export default async function MealPage({ params: { mealSlug } }: Props) {
   meal.instructions = meal.instructions.replace(/\n/g, '<br />')
 
   return (
-    <>
+    <h1>
+      hello world
       <header className={classes.header}>
         <div className={classes.image}>
           <Image
@@ -41,14 +42,14 @@ export default async function MealPage({ params: { mealSlug } }: Props) {
           <p className={classes.summary}>{meal.summary}</p>
         </div>
       </header>
-      <main className={classes.recipe}>
+      {/* <main className={classes.recipe}>
         <p
           className={classes.instructions}
           dangerouslySetInnerHTML={{
             __html: meal.instructions,
           }}
         />
-      </main>
-    </>
+      </main> */}
+    </h1>
   )
 }
