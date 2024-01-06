@@ -39,6 +39,7 @@ export default function ImagePicker({ label, name }: { label: string; name: stri
           name={name}
           ref={imageInputRef}
           onChange={handleChangeImage}
+          required
         />
         <button className={classes.button} type="button" onClick={() => imageInputRef.current?.click()}>
           Pick an Image
