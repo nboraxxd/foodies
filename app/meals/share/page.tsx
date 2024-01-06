@@ -1,7 +1,24 @@
-import ImagePicker from '@/components/meals/imagePicker/imagePicker';
-import classes from './page.module.css';
+import { Meal } from '@/types/meal.type'
+import { ImagePicker } from '@/components/meals'
+import classes from './page.module.css'
 
 export default function ShareMealPage() {
+  async function shareMeal(formData: FormData) {
+    'use server'
+
+    const meal: Omit<Meal, 'id'> = {
+      title: formData.get('title') as string,
+      summary: formData.get('summary') as string,
+      instructions: formData.get('instructions') as string,
+      image: formData.get('image') as string,
+      creator: formData.get('name') as string,
+      creator_email: formData.get('email') as string,
+      slug: (formData.get('title') as string).replace(/\s+/g, '-').toLowerCase(),
+    }
+
+    console.log('🔥 ~ shareMeal ~ meal:', meal)
+  }
+
   return (
     <>
       <header className={classes.header}>
@@ -11,7 +28,7 @@ export default function ShareMealPage() {
         <p>Or any other meal you feel needs sharing!</p>
       </header>
       <main className={classes.main}>
-        <form className={classes.form}>
+        <form className={classes.form} action={shareMeal}>
           <div className={classes.row}>
             <p>
               <label htmlFor="name">Your name</label>
@@ -32,19 +49,14 @@ export default function ShareMealPage() {
           </p>
           <p>
             <label htmlFor="instructions">Instructions</label>
-            <textarea
-              id="instructions"
-              name="instructions"
-              rows={10}
-              required
-            ></textarea>
+            <textarea id="instructions" name="instructions" rows={10} required></textarea>
           </p>
-          <ImagePicker label="Meal Image" name='image' />
+          <ImagePicker label="Meal Image" name="image" />
           <p className={classes.actions}>
             <button type="submit">Share Meal</button>
           </p>
         </form>
       </main>
     </>
-  );
+  )
 }
