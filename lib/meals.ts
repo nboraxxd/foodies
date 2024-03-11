@@ -1,4 +1,4 @@
-import sql from 'better-sqlite3'
+import { MongoClient } from 'mongodb'
 import xss from 'xss'
 import slugify from 'slugify'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,19 +14,47 @@ const s3 = new S3({
   },
 })
 
-const db = sql('meals.db')
-
 export async function getMeals() {
-  await new Promise((resolve) => setTimeout(resolve, 800))
-  return db.prepare('SELECT * FROM meals').all() as Meal[]
+  let client
+
+  try {
+    client = await MongoClient.connect(
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+    )
+  } catch (error) {
+    console.log('connection to db error!')
+  }
+
+  if (client) {
+    const database = client.db()
+    const meals = database.collection('meals')
+    const mealsArray = await meals.find().toArray()
+
+    return mealsArray
+  }
 }
 
 export async function getMeal(slug: string) {
-  await new Promise((resolve) => setTimeout(resolve, 800))
-  return db.prepare('SELECT * FROM meals WHERE slug = ?').get(slug) as Meal
+  let client
+
+  try {
+    client = await MongoClient.connect(
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+    )
+  } catch (error) {
+    console.log('connection to db error!')
+  }
+
+  if (client) {
+    const database = client.db()
+    const meals = database.collection('meals')
+    const meal = await meals.find({ slug }).next()
+
+    return meal
+  }
 }
 
-export async function saveMeal(meal: Omit<Meal, 'id' | 'image' | 'slug'> & { image: File }) {
+export async function saveMeal(meal: Omit<Meal, '_id' | 'image' | 'slug'> & { image: File }) {
   const { title, summary, instructions, image, creator, creator_email } = meal
 
   meal.instructions = xss(meal.instructions)
@@ -44,18 +72,35 @@ export async function saveMeal(meal: Omit<Meal, 'id' | 'image' | 'slug'> & { ima
     ContentType: meal.image.type,
   })
 
-  db.prepare(
-    `
-    INSERT INTO meals (title, summary, instructions, image, creator, creator_email, slug)
-    VALUES (
-      @title,
-      @summary,
-      @instructions,
-      @image,
-      @creator,
-      @creator_email,
-      @slug
+  let client
+
+  try {
+    client = await MongoClient.connect(
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
     )
-  `
-  ).run({ title, summary, instructions, creator, creator_email, slug, image: fileName })
+  } catch (error) {
+    console.log('connection to db error!')
+  }
+
+  if (client) {
+    const database = client.db()
+    const meals = database.collection('meals')
+
+    try {
+      await meals.insertOne({
+        title,
+        slug,
+        image: fileName,
+        summary,
+        instructions,
+        creator,
+        creator_email,
+      })
+
+      client.close()
+    } catch (error) {
+      client.close()
+      console.log('error saving meal!')
+    }
+  }
 }

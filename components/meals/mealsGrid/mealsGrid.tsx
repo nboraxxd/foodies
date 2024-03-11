@@ -10,9 +10,9 @@ export default function MealsGrid({ meals }: Props) {
   return (
     <ul className={classes.meals}>
       {meals.map((meal) => {
-        const { id, ...rest } = meal
+        const { _id, ...rest } = meal
         return (
-          <li key={id}>
+          <li key={_id.toString()}>
             <MealItem {...rest} />
           </li>
         )

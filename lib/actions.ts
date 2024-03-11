@@ -10,7 +10,7 @@ function isInvalidText(text: string): boolean {
 }
 
 export async function shareMeal(_prevState: { message: string }, formData: FormData) {
-  const meal: Omit<Meal, 'id' | 'image' | 'slug'> & { image: File } = {
+  const meal: Omit<Meal, '_id' | 'image' | 'slug'> & { image: File } = {
     title: formData.get('title') as string,
     summary: formData.get('summary') as string,
     instructions: formData.get('instructions') as string,

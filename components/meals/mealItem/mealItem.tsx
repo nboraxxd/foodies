@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Meal } from '@/types/meal.type'
 import classes from './mealItem.module.css'
 
-export default function MealItem({ creator, image, slug, summary, title }: Omit<Meal, 'id'>) {
+export default function MealItem({ creator, image, slug, summary, title }: Omit<Meal, '_id'>) {
   return (
     <article className={classes.meal}>
       <header>

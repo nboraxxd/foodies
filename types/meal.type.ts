@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb"
+
 export type Meal = {
-  id: string
+  _id: ObjectId
   title: string
   slug: string
   image: string
