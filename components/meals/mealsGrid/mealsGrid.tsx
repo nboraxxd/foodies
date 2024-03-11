@@ -1,9 +1,10 @@
 import { Meal } from '@/types/meal.type'
 import classes from './mealsGrid.module.css'
 import { MealItem } from '@/components/meals'
+import { WithId } from 'mongodb'
 
 type Props = {
-  meals: Meal[]
+  meals: WithId<Meal>[]
 }
 
 export default function MealsGrid({ meals }: Props) {

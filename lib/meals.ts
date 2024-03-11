@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 import xss from 'xss'
 import slugify from 'slugify'
 import { v4 as uuidv4 } from 'uuid'
@@ -27,7 +27,7 @@ export async function getMeals() {
 
   if (client) {
     const database = client.db()
-    const meals = database.collection('meals')
+    const meals = database.collection<Meal>('meals')
     const mealsArray = await meals.find().toArray()
 
     return mealsArray
@@ -47,7 +47,7 @@ export async function getMeal(slug: string) {
 
   if (client) {
     const database = client.db()
-    const meals = database.collection('meals')
+    const meals = database.collection<Meal>('meals')
     const meal = await meals.find({ slug }).next()
 
     return meal
@@ -84,17 +84,18 @@ export async function saveMeal(meal: Omit<Meal, '_id' | 'image' | 'slug'> & { im
 
   if (client) {
     const database = client.db()
-    const meals = database.collection('meals')
+    const meals = database.collection<Meal>('meals')
 
     try {
       await meals.insertOne({
+        _id: new ObjectId(),
         title,
-        slug,
-        image: fileName,
         summary,
         instructions,
+        slug,
         creator,
         creator_email,
+        image: fileName,
       })
 
       client.close()

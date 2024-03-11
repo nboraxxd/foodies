@@ -10,6 +10,10 @@ import classes from './page.module.css'
 async function FetchMeals() {
   const meals = await getMeals()
 
+  if (!meals) {
+    return <p>Failed to load meals</p>
+  }
+
   return <MealsGrid meals={meals} />
 }
 
