@@ -19,7 +19,7 @@ export async function getMeals() {
 
   try {
     client = await MongoClient.connect(
-      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
     )
   } catch (error) {
     console.log('connection to db error!')
@@ -39,7 +39,7 @@ export async function getMeal(slug: string) {
 
   try {
     client = await MongoClient.connect(
-      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
     )
   } catch (error) {
     console.log('connection to db error!')
@@ -76,7 +76,7 @@ export async function saveMeal(meal: Omit<Meal, '_id' | 'image' | 'slug'> & { im
 
   try {
     client = await MongoClient.connect(
-      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTERNAME}.z6qx1gj.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
     )
   } catch (error) {
     console.log('connection to db error!')
