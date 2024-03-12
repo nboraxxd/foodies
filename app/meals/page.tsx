@@ -1,6 +1,7 @@
-import { Suspense } from 'react'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
+import { Suspense } from 'react'
+import { notFound } from 'next/navigation'
 
 import { getMeals } from '@/lib/meals'
 import MealsLoading from '@/app/meals/mealsLoading'
@@ -11,7 +12,7 @@ async function FetchMeals() {
   const meals = await getMeals()
 
   if (!meals) {
-    return <p>Failed to load meals</p>
+    return notFound()
   }
 
   return <MealsGrid meals={meals} />
